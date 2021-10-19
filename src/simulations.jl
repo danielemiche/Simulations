@@ -42,7 +42,7 @@ function rand_norm(n::Int = 1; mean::Real = 0, variance::Real = 1)
 end
 
 # sample gamma 
-function Marsaglia_Tsang(n::Int, alpha::Real, beta::Real)
+function Marsaglia_Tsang(alpha::Real, beta::Real; n::Int = 1)
     seed = Int(time_ns())
     d = alpha-1/3
     c = 1/sqrt(9*d)
@@ -60,9 +60,9 @@ function Marsaglia_Tsang(n::Int, alpha::Real, beta::Real)
 end
 
 # sample beta using gamma
-function beta_from_gamma(alpha::Real, beta::Real, n::Int =1)
-    g_1 = Marsaglia_Tsang(n, alpha, 1)
-    g_2 = Marsaglia_Tsang(n, beta, 1)
+function beta_from_gamma(alpha::Real, beta::Real; n::Int =1)
+    g_1 = Marsaglia_Tsang(alpha, 1, n=n)
+    g_2 = Marsaglia_Tsang(beta, 1, n=n)
     b = g_1 ./(g_1 .+ g_2)
     if n==1
         return b[1]
